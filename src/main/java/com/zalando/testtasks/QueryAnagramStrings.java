@@ -15,14 +15,14 @@ public class QueryAnagramStrings {
         int[] output = new int[queries.length];
 
         for (int i = 0; i < queries.length; i++) {
-            long qlh = getLongHash(queries[i]);
+            long qbf = buildBloomFilter(queries[i]);
             for (String s : strings) {
                 if (queries[i].length() != s.length()) {
                     continue;
                 }
 
-                long slh = getLongHash(s);
-                if ((qlh - slh) == 0) {
+                long sbf = buildBloomFilter(s);
+                if ((qbf - sbf) == 0) {
                     output[i]++;
                 }
             }
@@ -30,11 +30,11 @@ public class QueryAnagramStrings {
         return output;
     }
 
-    private static long getLongHash(String s) {
-        long lh = 0L;
+    private static long buildBloomFilter(String s) {
+        long b = 0L;
         for (char c: s.toCharArray()) {
-            lh |= 1L << (c % 64);
+            b |= 1L << (c % 64);
         }
-        return lh;
+        return b;
     }
 }
